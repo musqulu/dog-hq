@@ -1,7 +1,8 @@
 "use client"
 
-import { FormEvent, useMemo, useState } from "react"
-import { CalendarDays, ClipboardCopy, HeartPulse, PawPrint, Pill, Plus, Share2, Sparkles } from "lucide-react"
+import type { FormEvent } from "react"
+import { useMemo, useState } from "react"
+import { Activity, ClipboardCopy, HeartPulse, PawPrint, Plus, Share2, ShieldCheck, Stethoscope } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -10,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
+
 
 type LogType = "Spacer" | "Jedzenie" | "Woda" | "Kupka" | "Lek" | "Nastrój" | "Trening"
 
@@ -66,6 +68,23 @@ const starterReminders: Reminder[] = [
 const logTypes: LogType[] = ["Spacer", "Jedzenie", "Woda", "Kupka", "Lek", "Nastrój", "Trening"]
 const reminderCategories: Reminder["category"][] = ["Lek", "Szczepienie", "Weterynarz", "Pielęgnacja"]
 
+const logTone: Record<LogType, string> = {
+  Spacer: "border-[#83dcdc]/20 bg-[#83dcdc]/10 text-[#83dcdc]",
+  Jedzenie: "border-[#ffdf9f]/20 bg-[#ffdf9f]/10 text-[#ffdf9f]",
+  Woda: "border-[#8fa6ff]/20 bg-[#8fa6ff]/10 text-[#8fa6ff]",
+  Kupka: "border-[#f7bf8b]/20 bg-[#f7bf8b]/10 text-[#f7bf8b]",
+  Lek: "border-[#f79ce0]/20 bg-[#f79ce0]/10 text-[#f79ce0]",
+  Nastrój: "border-[#ff7a5c]/20 bg-[#ff7a5c]/10 text-[#ff9b82]",
+  Trening: "border-[#27a644]/20 bg-[#27a644]/10 text-[#55d477]",
+}
+
+const reminderTone: Record<Reminder["category"], string> = {
+  Lek: "border-[#f79ce0]/20 bg-[#f79ce0]/10 text-[#f79ce0]",
+  Szczepienie: "border-[#8fa6ff]/20 bg-[#8fa6ff]/10 text-[#8fa6ff]",
+  Weterynarz: "border-[#ff7a5c]/20 bg-[#ff7a5c]/10 text-[#ff9b82]",
+  Pielęgnacja: "border-[#83dcdc]/20 bg-[#83dcdc]/10 text-[#83dcdc]",
+}
+
 function load<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback
   try {
@@ -114,9 +133,7 @@ export function DogHqApp() {
   }
 
   const toggleReminder = (id: string) => {
-    const next = reminders.map((reminder) =>
-      reminder.id === id ? { ...reminder, done: !reminder.done } : reminder
-    )
+    const next = reminders.map((reminder) => (reminder.id === id ? { ...reminder, done: !reminder.done } : reminder))
     setReminders(next)
     save("doghq.reminders", next)
   }
@@ -149,74 +166,82 @@ export function DogHqApp() {
   }
 
   return (
-    <main className="mx-auto w-[min(1180px,calc(100%-32px))] pb-20">
-      <nav className="sticky top-4 z-20 mt-4 mb-12 flex items-center justify-between gap-4 rounded-full border bg-white/85 px-4 py-3 shadow-[rgba(0,0,0,0.02)_0_0_0_1px,rgba(0,0,0,0.04)_0_2px_6px,rgba(0,0,0,0.1)_0_4px_8px] backdrop-blur md:top-5">
-        <a className="inline-flex items-center gap-2 text-lg font-black tracking-tight" href="#top" aria-label="Dog HQ">
-          <span className="grid size-9 place-items-center rounded-full bg-[#ff385c] text-white">
-            <PawPrint className="size-5" />
+    <main className="mx-auto w-[min(1198px,calc(100%-32px))] pb-24 text-[#f7f8f8]">
+      <nav className="sticky top-4 z-20 mt-4 mb-20 flex h-16 items-center justify-between gap-4 rounded-full border border-white/[0.08] bg-[#08090a]/80 px-3 backdrop-blur-xl md:px-5">
+        <a className="inline-flex items-center gap-3 text-sm font-semibold tracking-tight" href="#top" aria-label="Dog HQ">
+          <span className="grid size-8 place-items-center rounded-full border border-white/10 bg-white/[0.05] text-[#ff9b82]">
+            <PawPrint className="size-4" />
           </span>
           Dog HQ
         </a>
-        <div className="flex flex-wrap justify-end gap-1 text-sm font-bold text-muted-foreground">
-          <Button variant="ghost" size="sm" asChild><a href="#app">MVP</a></Button>
+        <div className="flex flex-wrap justify-end gap-1 text-sm font-medium text-muted-foreground">
+          <Button variant="ghost" size="sm" asChild><a href="#app">System</a></Button>
           <Button variant="ghost" size="sm" asChild><a href="#passport">Paszport</a></Button>
-          <Button variant="ghost" size="sm" asChild><a href="#research">Research</a></Button>
+          <Button variant="ghost" size="sm" asChild><a href="#research">Dlaczego</a></Button>
         </div>
       </nav>
 
-      <section id="top" className="grid place-items-center py-14 text-center md:py-20">
-        <Badge variant="coral" className="mb-5 gap-2 px-3 py-1">
-          <Sparkles className="size-3.5" /> Next.js + shadcn/ui MVP
-        </Badge>
-        <h1 className="max-w-5xl text-balance text-5xl font-black leading-[0.95] tracking-[-0.06em] text-[#222] md:text-8xl">
-          Jedno miejsce na opiekę, zdrowie i przekazywanie psa pod opiekę.
-        </h1>
-        <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground md:text-xl">
-          Dog HQ pomaga rodzinie i opiekunom wiedzieć, czy pies był nakarmiony, wyspacerowany,
-          dostał leki i co warto powiedzieć weterynarzowi albo behawioryście.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Button size="lg" asChild><a href="#app">Otwórz demo MVP</a></Button>
-          <Button size="lg" variant="outline" onClick={copyPassport}>
-            <ClipboardCopy className="size-4" /> {copied ? "Skopiowano" : "Skopiuj paszport psa"}
-          </Button>
+      <section id="top" className="grid gap-12 py-10 md:py-20">
+        <div className="max-w-5xl">
+          <Badge variant="secondary" className="mb-6 gap-2 px-3 py-1 font-mono uppercase tracking-[0.12em]">
+            Linear-inspired Dog HQ MVP
+          </Badge>
+          <h1 className="max-w-5xl text-balance text-6xl font-semibold leading-none tracking-[-0.06em] text-[#f7f8f8] md:text-8xl">
+            The care system for your dog and everyone who helps.
+          </h1>
+          <p className="mt-7 max-w-[420px] text-pretty text-[15px] leading-6 tracking-[-0.011em] text-[#8a8f98] md:text-base">
+            Daily care, medication, walks, health notes, and sitter handoffs in one operational surface — not another chat thread.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button size="lg" asChild><a href="#app">Open product surface</a></Button>
+            <Button size="lg" variant="outline" onClick={copyPassport}>
+              <ClipboardCopy className="size-4" /> {copied ? "Copied" : "Copy Dog Passport"}
+            </Button>
+          </div>
         </div>
-        <div className="mt-10 grid w-full grid-cols-2 gap-3 md:grid-cols-4">
-          <Metric label="Dzisiejsze logi" value={todayLogs.length.toString()} icon={<CalendarDays className="size-5" />} />
-          <Metric label="Spacery" value={walkCount.toString()} icon={<PawPrint className="size-5" />} />
-          <Metric label="Leki" value={medsDone.toString()} icon={<Pill className="size-5" />} />
-          <Metric label="Następne" value={nextReminder ? nextReminder.due.slice(5) : "OK"} icon={<HeartPulse className="size-5" />} />
-        </div>
+
+        <ProductSurface
+          profile={profile}
+          logs={logs}
+          reminders={reminders}
+          todayLogs={todayLogs.length}
+          walkCount={walkCount}
+          medsDone={medsDone}
+          nextReminder={nextReminder?.due.slice(5) || "OK"}
+        />
       </section>
 
-      <section id="research" className="grid gap-8 py-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start md:py-16">
+      <section id="research" className="grid gap-8 py-20 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
         <div className="lg:sticky lg:top-28">
-          <p className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-[#ff385c]">Dlaczego to ma sens</p>
-          <h2 className="max-w-2xl text-4xl font-black leading-none tracking-[-0.05em] md:text-5xl xl:text-6xl">
-            Rynek jest pełen aplikacji do jednej rzeczy. Luka: koordynacja codziennej opieki.
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#62666d]">Why it works</p>
+          <h2 className="max-w-2xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-6xl">
+            Product proof first. Warmth only where it carries meaning.
           </h2>
         </div>
         <div className="grid gap-3">
           {[
-            ["Codzienne logi", "Karma, woda, kupa, spacer, leki, nastrój — rzeczy, o które weterynarz realnie pyta."],
-            ["Shared care", "Rodzina, partner, petsitter i dog walker potrzebują prostego statusu, nie kolejnego czatu."],
-            ["Dog Passport", "Jedna kopiowalna karta psa: rutyna, kontakty, triggery, ostatnie objawy i instrukcje."],
-          ].map(([title, description]) => (
-            <Card key={title} className="shadow-[rgba(0,0,0,0.02)_0_0_0_1px,rgba(0,0,0,0.04)_0_2px_6px,rgba(0,0,0,0.1)_0_4px_8px]">
-              <CardHeader>
-                <CardTitle className="text-2xl">{title}</CardTitle>
-                <CardDescription className="text-base leading-7">{description}</CardDescription>
+            ["Daily command center", "Food, water, poop, walks, meds, and mood are logged as operational rows — the exact facts a vet or sitter asks for."],
+            ["Shared care", "Family, partner, petsitter, and dog walker see next actions and last events without scrolling through messages."],
+            ["Dog Passport", "One copyable care profile: routine, contacts, triggers, recent symptoms, and handoff instructions."],
+          ].map(([title, description], index) => (
+            <Card key={title} className="bg-white/[0.025]">
+              <CardHeader className="grid gap-3 md:grid-cols-[96px_1fr] md:items-start">
+                <Badge variant="secondary" className="w-fit font-mono">FIG 0.{index + 1}</Badge>
+                <div>
+                  <CardTitle className="text-2xl">{title}</CardTitle>
+                  <CardDescription className="mt-2 max-w-xl text-[15px] leading-6">{description}</CardDescription>
+                </div>
               </CardHeader>
             </Card>
           ))}
         </div>
       </section>
 
-      <section id="app" className="grid gap-4 py-8 lg:grid-cols-[1.05fr_1.35fr]">
-        <Card className="shadow-[rgba(0,0,0,0.02)_0_0_0_1px,rgba(0,0,0,0.04)_0_2px_6px,rgba(0,0,0,0.1)_0_4px_8px]">
+      <section id="app" className="grid gap-4 py-8 lg:grid-cols-[0.9fr_1.4fr]">
+        <Card className="bg-[#0f1011]">
           <CardHeader>
-            <CardDescription className="font-black uppercase tracking-[0.18em] text-[#ff385c]">Profil</CardDescription>
-            <CardTitle className="text-4xl">{profile.name}</CardTitle>
+            <CardDescription className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#62666d]">Profile</CardDescription>
+            <CardTitle className="text-3xl">{profile.name}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3">
             <div className="grid gap-3 sm:grid-cols-2">
@@ -227,17 +252,17 @@ export function DogHqApp() {
             </div>
             <ProfileField label="Weterynarz" value={profile.vet} onChange={(value) => updateProfile("vet", value)} />
             <ProfileField label="Kontakt awaryjny" value={profile.emergency} onChange={(value) => updateProfile("emergency", value)} />
-            <label className="grid gap-2 text-sm font-bold text-muted-foreground">
+            <label className="grid gap-2 text-xs font-medium text-muted-foreground">
               Triggery, rutyna, uwagi
               <Textarea value={profile.quirks} onChange={(event) => updateProfile("quirks", event.target.value)} />
             </label>
           </CardContent>
         </Card>
 
-        <Card className="shadow-[rgba(0,0,0,0.02)_0_0_0_1px,rgba(0,0,0,0.04)_0_2px_6px,rgba(0,0,0,0.1)_0_4px_8px]">
+        <Card className="bg-[#0f1011]">
           <CardHeader>
-            <CardDescription className="font-black uppercase tracking-[0.18em] text-[#ff385c]">Dziennik</CardDescription>
-            <CardTitle className="text-4xl">Dodaj szybki log</CardTitle>
+            <CardDescription className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#62666d]">Today log</CardDescription>
+            <CardTitle className="text-3xl">Add a care event</CardTitle>
           </CardHeader>
           <CardContent>
             <form className="grid gap-3 md:grid-cols-[160px_1fr_auto]" onSubmit={addLog}>
@@ -248,65 +273,63 @@ export function DogHqApp() {
                 </SelectContent>
               </Select>
               <Input value={logNote} onChange={(event) => setLogNote(event.target.value)} placeholder="np. 25 min, kupa OK, lek podany" />
-              <Button type="submit" variant="coral"><Plus className="size-4" /> Dodaj</Button>
+              <Button type="submit" variant="coral"><Plus className="size-4" /> Add</Button>
             </form>
-            <div className="mt-6 grid gap-2">
+            <div className="mt-6 grid overflow-hidden rounded-xl border border-white/[0.08]">
               {logs.slice(0, 9).map((log) => (
-                <article key={log.id} className="flex items-start gap-3 rounded-2xl bg-[#fff8f5] p-3">
-                  <Badge variant="coral">{log.type}</Badge>
-                  <div className="min-w-0">
-                    <strong className="block text-sm md:text-base">{log.note}</strong>
-                    <small className="text-muted-foreground">{new Date(log.time).toLocaleString("pl-PL")}</small>
-                  </div>
+                <article key={log.id} className="grid gap-2 border-b border-white/[0.06] bg-white/[0.02] p-3 last:border-b-0 md:grid-cols-[104px_1fr_132px] md:items-center">
+                  <Badge className={logTone[log.type]}>{log.type}</Badge>
+                  <strong className="truncate text-sm font-medium text-[#e2e4e7]">{log.note}</strong>
+                  <small className="font-mono text-[11px] text-muted-foreground">{new Date(log.time).toLocaleString("pl-PL")}</small>
                 </article>
               ))}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="shadow-[rgba(0,0,0,0.02)_0_0_0_1px,rgba(0,0,0,0.04)_0_2px_6px,rgba(0,0,0,0.1)_0_4px_8px]">
+        <Card className="bg-[#0f1011]">
           <CardHeader>
-            <CardDescription className="font-black uppercase tracking-[0.18em] text-[#ff385c]">Zdrowie</CardDescription>
-            <CardTitle className="text-4xl">Przypomnienia</CardTitle>
+            <CardDescription className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#62666d]">Health queue</CardDescription>
+            <CardTitle className="text-3xl">Reminders</CardTitle>
           </CardHeader>
           <CardContent>
             <form className="grid gap-3 md:grid-cols-[1fr_150px_170px_auto]" onSubmit={addReminder}>
               <Input name="title" placeholder="np. odrobaczanie" required />
               <Input name="due" type="date" defaultValue={today} required />
-              <select name="category" defaultValue="Lek" className="h-10 rounded-2xl border bg-background px-3 text-sm shadow-xs">
+              <select name="category" defaultValue="Lek" className="h-10 rounded-xl border border-input bg-background px-3 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50">
                 {reminderCategories.map((category) => <option key={category}>{category}</option>)}
               </select>
               <Button type="submit" variant="coral" size="icon" aria-label="Dodaj przypomnienie"><Plus className="size-4" /></Button>
             </form>
-            <div className="mt-6 grid gap-2">
+            <div className="mt-6 grid overflow-hidden rounded-xl border border-white/[0.08]">
               {[...reminders].sort((a, b) => a.due.localeCompare(b.due)).map((reminder) => (
                 <button
                   key={reminder.id}
-                  className={`grid w-full gap-2 rounded-2xl bg-[#fff8f5] p-3 text-left transition hover:bg-[#fff1ec] md:grid-cols-[120px_1fr_auto] md:items-center ${reminder.done ? "opacity-50 line-through" : ""}`}
+                  className={`grid w-full gap-2 border-b border-white/[0.06] bg-white/[0.02] p-3 text-left transition last:border-b-0 hover:bg-white/[0.04] md:grid-cols-[120px_1fr_auto] md:items-center ${reminder.done ? "opacity-50 line-through" : ""}`}
                   onClick={() => toggleReminder(reminder.id)}
                 >
-                  <Badge variant="coral">{reminder.category}</Badge>
-                  <strong>{reminder.title}</strong>
-                  <small className="text-muted-foreground">{reminder.due}</small>
+                  <Badge className={reminderTone[reminder.category]}>{reminder.category}</Badge>
+                  <strong className="text-sm font-medium text-[#e2e4e7]">{reminder.title}</strong>
+                  <small className="font-mono text-[11px] text-muted-foreground">{reminder.due}</small>
                 </button>
               ))}
             </div>
           </CardContent>
         </Card>
 
-        <Card id="passport" className="shadow-[rgba(0,0,0,0.02)_0_0_0_1px,rgba(0,0,0,0.04)_0_2px_6px,rgba(0,0,0,0.1)_0_4px_8px] lg:col-span-2">
+        <Card id="passport" className="bg-[#0f1011] lg:col-span-2">
           <CardHeader>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <CardDescription className="font-black uppercase tracking-[0.18em] text-[#ff385c]">Opiekun / petsitter</CardDescription>
-                <CardTitle className="text-4xl">Dog Passport</CardTitle>
+                <CardDescription className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#62666d]">Sitter handoff</CardDescription>
+                <CardTitle className="text-3xl">Dog Passport</CardTitle>
               </div>
-              <Button variant="outline" onClick={copyPassport}><Share2 className="size-4" /> {copied ? "Skopiowano" : "Kopiuj"}</Button>
+              <Button variant="outline" onClick={copyPassport}><Share2 className="size-4" /> {copied ? "Copied" : "Copy"}</Button>
             </div>
           </CardHeader>
           <CardContent>
-            <Separator className="mb-5" />
-            <pre className="overflow-auto rounded-3xl bg-[#fff8f5] p-5 font-mono text-sm leading-6 text-[#2f2723] whitespace-pre-wrap">
+            <Separator className="mb-5 bg-white/[0.08]" />
+            <pre className="overflow-auto rounded-xl border border-white/[0.08] bg-[#08090a] p-5 font-mono text-xs leading-6 text-[#d0d6e0] whitespace-pre-wrap">
               {passport}
             </pre>
           </CardContent>
@@ -316,23 +339,111 @@ export function DogHqApp() {
   )
 }
 
-function Metric({ label, value, icon }: { label: string; value: string; icon: React.ReactNode }) {
+function ProductSurface({
+  profile,
+  logs,
+  reminders,
+  todayLogs,
+  walkCount,
+  medsDone,
+  nextReminder,
+}: {
+  profile: DogProfile
+  logs: CareLog[]
+  reminders: Reminder[]
+  todayLogs: number
+  walkCount: number
+  medsDone: number
+  nextReminder: string
+}) {
   return (
-    <Card className="gap-2 py-5 text-left shadow-[rgba(0,0,0,0.02)_0_0_0_1px,rgba(0,0,0,0.04)_0_2px_6px,rgba(0,0,0,0.1)_0_4px_8px]">
-      <CardContent className="flex items-start justify-between gap-3">
-        <div>
-          <strong className="block text-4xl font-black tracking-[-0.06em]">{value}</strong>
-          <span className="text-sm font-bold text-muted-foreground">{label}</span>
-        </div>
-        <span className="grid size-10 place-items-center rounded-full bg-[#ff385c]/10 text-[#ff385c]">{icon}</span>
-      </CardContent>
-    </Card>
+    <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0f1011] shadow-[rgba(8,9,10,0.4)_0_24px_80px_0]">
+      <div className="grid min-h-[560px] lg:grid-cols-[230px_1fr_260px]">
+        <aside className="border-b border-white/[0.08] bg-white/[0.02] p-4 lg:border-r lg:border-b-0">
+          <div className="mb-6 flex items-center gap-3">
+            <span className="grid size-8 place-items-center rounded-full bg-[#ff7a5c]/10 text-[#ff9b82]"><PawPrint className="size-4" /></span>
+            <div>
+              <strong className="block text-sm">Dog HQ</strong>
+              <span className="text-xs text-muted-foreground">{profile.name} workspace</span>
+            </div>
+          </div>
+          <div className="grid gap-1 text-sm">
+            {[
+              { label: "Today", Icon: Activity },
+              { label: "Health", Icon: HeartPulse },
+              { label: "Passport", Icon: ShieldCheck },
+              { label: "Vet notes", Icon: Stethoscope },
+            ].map(({ label, Icon }) => (
+              <div key={label} className="flex h-8 items-center gap-2 rounded-lg px-2 text-[#d0d6e0] first:bg-white/[0.05] first:text-[#f7f8f8]">
+                <Icon className="size-4 text-muted-foreground" />
+                {label}
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 rounded-xl border border-white/[0.08] bg-[#08090a] p-3">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#62666d]">Handoff status</p>
+            <p className="mt-2 text-sm text-[#e2e4e7]">Ready for sitter · last sync 4 min ago</p>
+          </div>
+        </aside>
+
+        <section className="p-4 md:p-5">
+          <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#62666d]">Today · {today}</p>
+              <h3 className="mt-2 text-3xl font-semibold tracking-[-0.04em]">{profile.name} care timeline</h3>
+            </div>
+            <Badge className="border-[#27a644]/20 bg-[#27a644]/10 text-[#55d477]">All critical tasks visible</Badge>
+          </div>
+          <div className="grid gap-3 md:grid-cols-4">
+            <MiniMetric label="Logs" value={String(todayLogs)} />
+            <MiniMetric label="Walks" value={String(walkCount)} />
+            <MiniMetric label="Meds" value={String(medsDone)} />
+            <MiniMetric label="Next" value={nextReminder} />
+          </div>
+          <div className="mt-5 grid overflow-hidden rounded-xl border border-white/[0.08]">
+            {logs.slice(0, 5).map((log) => (
+              <div key={log.id} className="grid gap-2 border-b border-white/[0.06] bg-white/[0.02] p-3 last:border-b-0 md:grid-cols-[84px_1fr_78px] md:items-center">
+                <Badge className={logTone[log.type]}>{log.type}</Badge>
+                <span className="truncate text-sm text-[#e2e4e7]">{log.note}</span>
+                <span className="font-mono text-[11px] text-muted-foreground">{new Date(log.time).toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit" })}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <aside className="border-t border-white/[0.08] bg-white/[0.02] p-4 lg:border-t-0 lg:border-l">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#62666d]">Queue</p>
+          <div className="mt-4 grid gap-3">
+            {reminders.slice(0, 3).map((reminder) => (
+              <div key={reminder.id} className="rounded-xl border border-white/[0.08] bg-[#08090a] p-3">
+                <Badge className={reminderTone[reminder.category]}>{reminder.category}</Badge>
+                <p className="mt-3 text-sm font-medium text-[#e2e4e7]">{reminder.title}</p>
+                <p className="mt-1 font-mono text-[11px] text-muted-foreground">Due {reminder.due}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 rounded-xl border border-[#ff7a5c]/20 bg-[#ff7a5c]/10 p-3 text-[#ffb19e]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em]">Sitter note</p>
+            <p className="mt-2 text-sm leading-5">Boi się burzy. Nie podchodź do rowerów. Smaczki z kurczaka działają.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  )
+}
+
+function MiniMetric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl border border-white/[0.08] bg-white/[0.025] p-3">
+      <strong className="block font-mono text-2xl font-semibold tracking-[-0.04em]">{value}</strong>
+      <span className="text-xs text-muted-foreground">{label}</span>
+    </div>
   )
 }
 
 function ProfileField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
   return (
-    <label className="grid gap-2 text-sm font-bold text-muted-foreground">
+    <label className="grid gap-2 text-xs font-medium text-muted-foreground">
       {label}
       <Input value={value} onChange={(event) => onChange(event.target.value)} />
     </label>
