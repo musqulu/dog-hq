@@ -1,0 +1,160 @@
+{
+  "source": "https://linear.app/",
+  "analyzedAt": "2026-06-26T15:43:30Z",
+  "targetProduct": "Dog HQ",
+  "pagesAnalyzed": [
+    {
+      "url": "https://linear.app/",
+      "title": "Linear – The system for product development",
+      "viewport": { "width": 1280, "height": 633 },
+      "body": { "width": 1280, "height": 10511 },
+      "screenshot": {
+        "originalPath": "/Users/koni/.hermes/cache/screenshots/browser_screenshot_98df9e4ebbec4a30b3a17e2ffece825b.png",
+        "originalSize": { "width": 1280, "height": 10511 },
+        "resizedPath": "/tmp/linear-home-4000.png",
+        "resizedSize": { "width": 487, "height": 4000 },
+        "note": "Original screenshot exceeded provider image dimension limit; analysis used resized screenshot plus DOM extraction."
+      }
+    }
+  ],
+  "tokens": {
+    "colors": {
+      "background": "#08090a",
+      "surface1": "#0f1011",
+      "surface2": "#121314",
+      "surfaceAlpha02": "rgba(255,255,255,0.02)",
+      "surfaceAlpha03": "rgba(255,255,255,0.03)",
+      "surfaceAlpha05": "rgba(255,255,255,0.05)",
+      "surfaceAlpha07": "rgba(255,255,255,0.07)",
+      "textPrimary": "#f7f8f8",
+      "textBright": "#ffffff",
+      "textSecondary": "#8a8f98",
+      "textTertiary": "#62666d",
+      "panelText": "#d0d6e0",
+      "ctaSurface": "#e5e5e6",
+      "ctaText": "#08090a",
+      "linearAccent": "#5e6ad2",
+      "statePink": "#f79ce0",
+      "stateOrange": "#f7bf8b",
+      "stateYellow": "#ffdf9f",
+      "stateCyan": "#83dcdc",
+      "statePeriwinkle": "#8fa6ff",
+      "stateGreen": "#27a644",
+      "stateRed": "#f34f52"
+    },
+    "typography": {
+      "sans": "Inter Variable, SF Pro Display, -apple-system, system-ui, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif",
+      "mono": "Berkeley Mono, SF Mono, Menlo, monospace",
+      "hero": { "fontSize": "64px", "lineHeight": "64px", "fontWeight": 510, "letterSpacing": "-1.408px" },
+      "heroBody": { "fontSize": "15px", "lineHeight": "24px", "fontWeight": 400, "letterSpacing": "-0.165px", "measuredWidth": "378px" },
+      "nav": { "fontSize": "13px", "lineHeight": "19.5px", "fontWeight": 400 },
+      "uiLabel": { "fontSize": "13px", "fontWeight": 510, "rowHeight": "28px" },
+      "commonSizes": ["16px", "14px", "13.333px", "13px", "12px", "15px", "48px", "40px", "32px", "24px"]
+    },
+    "spacing": {
+      "headerHeight": "72px",
+      "headerPaddingX": "41px",
+      "heroTop": "272px",
+      "heroInnerPaddingX": "32px",
+      "heroWidth": "1198px",
+      "majorSectionRhythm": "one primary claim per viewport; long vertical gaps"
+    },
+    "radii": {
+      "controlPill": "9999px",
+      "small": "6px",
+      "panel": "8px",
+      "card": "12px",
+      "largeCard": "16px"
+    },
+    "borders": {
+      "subtle": "1px solid rgba(255,255,255,0.05)",
+      "strongDark": "1px solid #23252a",
+      "cta": "1px solid #e5e5e6"
+    },
+    "shadows": {
+      "default": "none",
+      "micro": "rgba(0,0,0,0.03) 0px 1.2px 0px",
+      "darkPanel": "rgba(0,0,0,0.4) 0px 2px 4px",
+      "insetBorder": "#23252a 0px 0px 0px 1px inset"
+    }
+  },
+  "patterns": [
+    {
+      "name": "Product surface is the hero asset",
+      "evidence": "Hero pairs a short claim with a large Linear UI screenshot showing issue activity, labels, priorities, and agent chat.",
+      "dogHqTranslation": "Use the actual Dog HQ dashboard as the landing-page proof: Today, meds, walk log, handoff note, and Dog Passport.",
+      "avoid": "Mascot art, stock dog photography, or a lifestyle collage as the primary proof."
+    },
+    {
+      "name": "Monochrome frame, stateful color inside the system",
+      "evidence": "Base #08090a and text #f7f8f8/#8a8f98 surround colored state chips inside product UI.",
+      "dogHqTranslation": "Reserve warm and status colors for care states: overdue medication, completed walk, missed feeding, vet note, sitter handoff.",
+      "avoid": "Using the Dog HQ accent on every card, heading, border, and icon."
+    },
+    {
+      "name": "Small controls signal operational seriousness",
+      "evidence": "Nav links are 13px, controls are 32px high, product rows are around 28px, UI labels use 13px at weight 510.",
+      "dogHqTranslation": "Make daily-care entries concise rows with timestamps, labels, and owner/sitter initials.",
+      "avoid": "Oversized cards for every care event."
+    },
+    {
+      "name": "Whitespace separates ideas instead of dividers",
+      "evidence": "The page is 10511px tall, with large isolated sections and few visible dividers.",
+      "dogHqTranslation": "Give one section each to daily command center, health memory, sitter handoff, and Dog Passport.",
+      "avoid": "Dense feature grids that turn the landing page into a settings screen."
+    },
+    {
+      "name": "Low-shadow depth",
+      "evidence": "Shadow extraction is dominated by none; panels use 1px borders and surface steps.",
+      "dogHqTranslation": "Style cards with dark fills, alpha borders, and small radii; keep shadows rare.",
+      "avoid": "Large soft card shadows and glass highlights on routine panels."
+    }
+  ],
+  "principles": [
+    {
+      "principle": "Operations before affection",
+      "trigger": "Care logs, medication, handoffs, vet records, and Dog Passport screens.",
+      "decision": "Lead with structured product UI: rows, timestamps, labels, status chips, initials, and concise notes.",
+      "reason": "Dog HQ must make owners trust that nothing gets forgotten; operational evidence is stronger than decoration.",
+      "evidence": "Linear hero UI shows issue activity, labels, priorities, cycle, project, and agent chat with 13px labels and 28px rows.",
+      "tradeOff": "Do not turn the landing page into a pet scrapbook; use dog identity and warmth as support."
+    },
+    {
+      "principle": "Dark shell, warm signal",
+      "trigger": "Color decisions across landing, dashboard, cards, and status chips.",
+      "decision": "Use near-black surfaces and neutral text; reserve Dog HQ warm color for active actions, overdue states, and one emotional callout.",
+      "reason": "Scarce color becomes meaningful and helps status information stand out.",
+      "evidence": "Linear uses #08090a background, #f7f8f8 primary text, #8a8f98 secondary text, #e5e5e6 CTA, and state colors mostly inside product UI.",
+      "tradeOff": "Do not use warm peach/pink as wallpaper across all surfaces."
+    },
+    {
+      "principle": "Tiny data, large claim",
+      "trigger": "Marketing sections that need to explain MVP value quickly.",
+      "decision": "Pair a large short headline with a dense but controlled product crop underneath.",
+      "reason": "The headline carries the promise while the UI details prove maturity.",
+      "evidence": "Hero headline is 64px/64px with -1.408px letter spacing; supporting text is 15px/24px; UI below uses 13px rows and controls.",
+      "tradeOff": "Do not explain every feature in the hero."
+    },
+    {
+      "principle": "Depth by edges, not shadows",
+      "trigger": "Cards, task rows, passport panels, and handoff notes.",
+      "decision": "Use 1px alpha borders, dark surface steps, and 6-12px radii before using drop shadows.",
+      "reason": "The interface reads as precise software and keeps dense information scannable.",
+      "evidence": "DOM extraction found shadows overwhelmingly set to none; borders include rgba(255,255,255,0.05) and #23252a; radii cluster at 6px, 8px, and 12px.",
+      "tradeOff": "Avoid large soft shadows, glass highlights, and raised panels unless a modal needs elevation."
+    }
+  ],
+  "antiPatterns": [
+    "Do not clone Linear's brand mark, exact copy, or purple identity.",
+    "Do not make Dog HQ emotionally cold; keep warmth in copy, microcopy, one accent color, and useful status feedback.",
+    "Do not use dog photos as the primary interface texture.",
+    "Do not create a dense feature matrix on the landing page.",
+    "Do not use color as decoration; every colored chip should mean a care state.",
+    "Do not use heavy shadows for routine cards."
+  ],
+  "notes": [
+    "This extraction translates structure and restraint; it should not copy Linear's brand identity.",
+    "Dog HQ should keep a warmer voice than Linear because the domain is care and trust, not enterprise velocity.",
+    "Recommended implementation target is DESIGN.md plus docs/taste/linear-for-dog-hq.md for detailed rationale."
+  ]
+}
