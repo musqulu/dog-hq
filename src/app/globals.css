@@ -1,38 +1,38 @@
 @import "tailwindcss";
 
 :root {
-  --background: #08090a;
-  --foreground: #f7f8f8;
-  --card: #0f1011;
-  --card-foreground: #f7f8f8;
-  --popover: #121314;
-  --popover-foreground: #f7f8f8;
-  --primary: #e5e5e6;
-  --primary-foreground: #08090a;
-  --secondary: rgba(255, 255, 255, 0.05);
-  --secondary-foreground: #f7f8f8;
-  --muted: rgba(255, 255, 255, 0.05);
-  --muted-foreground: #8a8f98;
-  --accent: rgba(255, 255, 255, 0.07);
-  --accent-foreground: #f7f8f8;
-  --destructive: #f34f52;
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: #ff7a5c;
-  --radius: 0.75rem;
+  --background: #ffffff;
+  --foreground: #222222;
+  --card: #ffffff;
+  --card-foreground: #222222;
+  --popover: #ffffff;
+  --popover-foreground: #222222;
+  --primary: #ff385c;
+  --primary-foreground: #ffffff;
+  --secondary: #f7f7f7;
+  --secondary-foreground: #222222;
+  --muted: #f7f7f7;
+  --muted-foreground: #717171;
+  --accent: #f7f7f7;
+  --accent-foreground: #222222;
+  --destructive: #d31545;
+  --border: #dddddd;
+  --input: #dddddd;
+  --ring: #ff385c;
+  --radius: 1rem;
 
-  --surface-1: #0f1011;
-  --surface-2: #121314;
-  --surface-3: rgba(255, 255, 255, 0.05);
-  --border-strong: #23252a;
-  --text-tertiary: #62666d;
-  --dog-warm: #ff7a5c;
-  --status-walk: #83dcdc;
-  --status-food: #ffdf9f;
-  --status-health: #f79ce0;
-  --status-vet: #8fa6ff;
-  --status-ok: #27a644;
-  --status-alert: #f34f52;
+  --surface-1: #ffffff;
+  --surface-2: #f7f7f7;
+  --surface-3: #eeeeee;
+  --border-strong: #b0b0b0;
+  --text-tertiary: #717171;
+  --dog-warm: #ff385c;
+  --status-walk: #0f766e;
+  --status-food: #a16207;
+  --status-health: #d31545;
+  --status-vet: #2563eb;
+  --status-ok: #15803d;
+  --status-alert: #d31545;
 }
 
 @theme inline {
@@ -54,10 +54,10 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -73,20 +73,17 @@ html {
 
 body {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 50% -10%, rgba(94, 106, 210, 0.22), transparent 30rem),
-    radial-gradient(circle at 88% 12%, rgba(255, 122, 92, 0.11), transparent 22rem),
-    linear-gradient(180deg, #08090a 0%, #08090a 46%, #0b0c0d 100%);
+  background: var(--background);
   color: var(--foreground);
   text-rendering: geometricPrecision;
 }
 
 ::selection {
-  background: rgba(255, 122, 92, 0.24);
+  background: rgba(255, 56, 92, 0.18);
 }
 
 input,
 textarea,
 select {
-  color-scheme: dark;
+  color-scheme: light;
 }

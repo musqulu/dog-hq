@@ -1,0 +1,66 @@
+{
+  "source": "https://www.airbnb.com/",
+  "analyzedAt": "2026-06-28",
+  "pagesAnalyzed": ["Airbnb homepage"],
+  "tokens": {
+    "background": "#ffffff",
+    "sectionBackground": "#f7f7f7",
+    "primaryText": "#222222",
+    "secondaryText": "#6a6a6a",
+    "border": "#dddddd",
+    "action": "#ff385c",
+    "searchRadius": "32px",
+    "searchHeight": "66px",
+    "searchButtonSize": "48px",
+    "pageGutter": "32-40px",
+    "labelSize": "12px",
+    "bodySize": "14px"
+  },
+  "patterns": [
+    "Dominant segmented search bar above fold",
+    "One saturated action color, grayscale elsewhere",
+    "Small labels over short values for multi-part choices",
+    "Rounded image/card modules for comparison",
+    "Text-only navigation with light utility controls"
+  ],
+  "designPrinciples": [
+    {
+      "principle": "Search is the product promise",
+      "trigger": "landing hero",
+      "decision": "make a segmented care-search bar the dominant control",
+      "reason": "users understand the core Dog HQ job immediately",
+      "evidence": "Airbnb search is about 850px wide, 66px tall, and centered in the header",
+      "tradeOff": "less room for dashboard-heavy hero content"
+    },
+    {
+      "principle": "Use grayscale until action needs color",
+      "trigger": "cards, navigation, metadata",
+      "decision": "use warm red only for primary action and urgent care signals",
+      "reason": "scarce color strengthens hierarchy",
+      "evidence": "Airbnb uses red primarily on the search CTA",
+      "tradeOff": "less decorative pet-brand expression"
+    }
+  ],
+  "ramzLens": [
+    {
+      "lens": "usefulness",
+      "evidence": "segmented search maps to the user's service/date/dog/location decision",
+      "risk": "a pretty dashboard may not answer the first task",
+      "change": "lead with care search and move operational logs below"
+    },
+    {
+      "lens": "honesty",
+      "evidence": "Airbnb-style cards can place ratings, distance, and constraints next to provider names",
+      "risk": "generic trust claims are less useful than visible details",
+      "change": "show concrete provider and care signals"
+    },
+    {
+      "lens": "reduction",
+      "evidence": "Airbnb limits saturated color and above-fold noise",
+      "risk": "too many chips/status colors make Dog HQ feel like admin software",
+      "change": "use one action color and one trust signal per card"
+    }
+  ],
+  "antiPatterns": ["dark dashboard as hero", "many colored chips above fold", "unlabeled provider claims", "decorative pet imagery replacing product tasks"],
+  "implementationNotes": ["Use #ff385c for primary actions", "Use white/off-white shell", "Create segmented care search", "Use provider-style cards", "Keep editable Dog HQ utilities in light cards"]
+}
